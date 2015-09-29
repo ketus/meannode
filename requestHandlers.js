@@ -1,8 +1,9 @@
 var queryString = require('querystring');
 var colors = require('colors');
+var formi = require('formidable');
 var fs = require('fs');
 
-function start(response, postData){
+function start(response){
 	console.log("Request handler 'start' was called.".green);
 
 	var body = '<html>'+
@@ -23,14 +24,28 @@ function start(response, postData){
 	response.end();
 }
 
-function upload(response, postData) {
+function upload(response, request) {
   console.log('handler for /upload '.green);
+
+  var form = new formi.IncomingForm();
+  form.parse(request, function (err, fields, files) {
+    console.log('form parsed');
+
+    fs.rename(files.upload.path, '/tmp/test.png', function () {
+      if(err){
+        fs.unlink('/tmp/test.png');
+        fs.rename(files.upload.path, '/tmp/test.png');
+      }
+    });
+
+  });
 	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write('from form: ' + queryString.parse(postData).text);
-	response.end();
+	response.write('got image:<br/>');
+	response.write('<img src="/show" />');
+  response.end();
 }
 
-function show(response, postData){
+function show(response){
   console.log('handler for /show '.green);
   fs.readFile('/tmp/test.png','binary', function (err, file) {
     if(err) {
@@ -39,7 +54,6 @@ function show(response, postData){
       response.end();
     } else {
       response.writeHead(200, {"Content-Type": "image/png"});
-      response.write('reading from \'/tmp/test.png\'');
       response.write(file, 'binary');
       response.end();
     }
