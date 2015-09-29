@@ -1,0 +1,23 @@
+{
+  "name": "meannode",
+  "version": "0.0.0",
+  "description": "page 52 added listeners do requests, check them in docs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ketus/meannode.git"
+  },
+  "author": "ketus",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ketus/meannode/issues"
+  },
+  "dependencies": {
+    "formidable": "~1.0.17",
+    "colors": "~1.1.2"
+  }
+}
