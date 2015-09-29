@@ -60,7 +60,6 @@ function show(response){
   });
 }
 
-
 exports.start = start;
 exports.upload = upload;
 exports.show = show;
